@@ -20,13 +20,11 @@ import retrofit2.Callback;
 
 public class PhotoAdapter extends RecyclerView.Adapter <PhotoAdapter.ViewHolder> {
 
-    private final Callback<Response> photoGallery;
     private final List<Photo> values;
     private boolean from_bd;
     private PhotosDao dao;
 
-    PhotoAdapter(Callback<Response> parent, List<Photo> items, PhotosDao dao, boolean from_bd) {
-        photoGallery = parent;
+    PhotoAdapter(List<Photo> items, PhotosDao dao, boolean from_bd) {
         values = items;
         this.dao = dao;
         this.from_bd = from_bd;

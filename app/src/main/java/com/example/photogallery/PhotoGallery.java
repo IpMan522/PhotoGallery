@@ -40,7 +40,7 @@ public class PhotoGallery extends AppCompatActivity {
         {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                PhotoAdapter pa = new PhotoAdapter(this, response.body().getPhotos().getPhoto(), db.photoDao(), false);
+                PhotoAdapter pa = new PhotoAdapter(response.body().getPhotos().getPhoto(), db.photoDao(), false);
                 rv.setAdapter(pa);
             }
 
@@ -70,7 +70,7 @@ public class PhotoGallery extends AppCompatActivity {
                         {
                             @Override
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                                PhotoAdapter pa = new PhotoAdapter(this, response.body().getPhotos().getPhoto(), db.photoDao(), false);
+                                PhotoAdapter pa = new PhotoAdapter(response.body().getPhotos().getPhoto(), db.photoDao(), false);
                                 rv.setAdapter(pa);
                             }
 
@@ -88,6 +88,13 @@ public class PhotoGallery extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id){
+            case R.id.db :
+                PhotoAdapter pa = new PhotoAdapter(db.photoDao().LoadAll(), db.photoDao(), true);
+                rv.setAdapter(pa);
+                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }
