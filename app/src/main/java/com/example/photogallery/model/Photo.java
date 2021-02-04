@@ -1,11 +1,13 @@
 package com.example.photogallery.model;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class Photo {
+    @NonNull
     @PrimaryKey
     private String id;
 
