@@ -1,6 +1,12 @@
 package com.example.photogallery.model;
 
+
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Photo {
+    @PrimaryKey
     private String id;
 
     private String owner;
