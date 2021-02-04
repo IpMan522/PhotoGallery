@@ -22,11 +22,14 @@ public class PhotoAdapter extends RecyclerView.Adapter <PhotoAdapter.ViewHolder>
 
     private final Callback<Response> photoGallery;
     private final List<Photo> values;
+    private boolean from_bd;
     private PhotosDao dao;
 
-    PhotoAdapter(Callback<Response> parent, List<Photo> items) {
+    PhotoAdapter(Callback<Response> parent, List<Photo> items, PhotosDao dao, boolean from_bd) {
         photoGallery = parent;
         values = items;
+        this.dao = dao;
+        this.from_bd = from_bd;
     }
 
     @Override
@@ -57,6 +60,24 @@ public class PhotoAdapter extends RecyclerView.Adapter <PhotoAdapter.ViewHolder>
         ViewHolder(View view) {
             super(view);
             idView = view.findViewById(R.id.iv);
+            if(from_bd)
+            {
+                idView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dao.deletePhoto(values.get(ViewHolder.this.getAdapterPosition()));
+                    }
+                });
+            }
+            else
+            {
+                idView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dao.insertPhoto(values.get(ViewHolder.this.getAdapterPosition()));
+                    }
+                });
+            }
         }
     }
 }

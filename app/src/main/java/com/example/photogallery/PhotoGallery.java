@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.example.photogallery.api.FlickrAPI;
 import com.example.photogallery.api.ServiceAPI;
+import com.example.photogallery.db.PhotosDB;
 import com.example.photogallery.model.Response;
 
 import retrofit2.Call;
@@ -22,11 +23,14 @@ public class PhotoGallery extends AppCompatActivity {
 
     RecyclerView rv;
     Retrofit r;
+    PhotosDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gallery_activity);
+
+        db = PhotosDB.getDatabase(getApplicationContext());
 
         rv = findViewById(R.id.rv);
         rv.setLayoutManager(new GridLayoutManager(this, 3));
@@ -36,7 +40,7 @@ public class PhotoGallery extends AppCompatActivity {
         {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                PhotoAdapter pa = new PhotoAdapter(this, response.body().getPhotos().getPhoto());
+                PhotoAdapter pa = new PhotoAdapter(this, response.body().getPhotos().getPhoto(), db.photoDao(), false);
                 rv.setAdapter(pa);
             }
 
@@ -66,7 +70,7 @@ public class PhotoGallery extends AppCompatActivity {
                         {
                             @Override
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                                PhotoAdapter pa = new PhotoAdapter(this, response.body().getPhotos().getPhoto());
+                                PhotoAdapter pa = new PhotoAdapter(this, response.body().getPhotos().getPhoto(), db.photoDao(), false);
                                 rv.setAdapter(pa);
                             }
 
